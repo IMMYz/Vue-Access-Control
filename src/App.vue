@@ -131,10 +131,11 @@ export default {
       let originPath = util.deepcopy(userPath);
       originPath[0].children = actualRouter;
       //注入路由
-      vm.$router.addRoutes(originPath.concat([{
-        path: '*',
-        redirect: '/404'
-      }]));
+//      vm.$router.addRoutes(originPath.concat([{
+//        path: '*',
+//        redirect: '/404'
+//      }]));
+      vm.$router.addRoutes(originPath);
     },
     signin: function(callback) {
       let vm = this;

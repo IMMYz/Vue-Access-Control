@@ -16,6 +16,7 @@
     <!-- 操作 -->
     <div class="operation">
       <el-button size="small" type="primary" v-has="[role.request]" @click="fetchData">查询</el-button>
+      <el-button size="small" type="primary" @click="addRoutes">添加路由</el-button>
       <el-button size="small" type="danger" v-has="[role.remove]">删除</el-button>
       <el-button size="small" v-if="$_has([role.request]) && canReset">重置</el-button>
       <el-button size="small" type="info" @click="requestNotAllowed">尝试发起越权请求</el-button>
@@ -41,7 +42,7 @@
 
 <script>
 import * as role from '../api/role';
-
+import authTest from '../views/auth-test.vue'
 let myMixin = {
   data: function() {
     return { role }
@@ -67,6 +68,18 @@ export default {
     },
     requestNotAllowed: function(){
       role.notAllowed.r();
+    },
+    addRoutes(){
+      let vm = this;
+      vm.$router.addRoutes(
+        [
+          {
+            path:'/auth',
+//            component: (resolve) => require(['../views/auth-test.vue'], resolve)
+            component:authTest
+          }
+        ]
+      )
     }
   },
   created() {
