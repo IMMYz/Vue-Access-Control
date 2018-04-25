@@ -10,6 +10,10 @@ let baseRoute = [{
   path:'/map',
   name:'地图',
   component:(resolve) => require(['../views/map-test.vue'],resolve)
+},{
+  path:'/map2',
+  name:'地图2',
+  component:(resolve) => require(['../views/map-test2.vue'],resolve)
 },
   {
   path: '/401',
