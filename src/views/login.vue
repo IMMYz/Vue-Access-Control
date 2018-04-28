@@ -48,6 +48,9 @@
         <el-form-item>
           <el-button style="width:100%" @click="addRoutes" type="primary">注入路由</el-button>
         </el-form-item>
+        <el-form-item>
+          <el-button style="width:100%" @click="getAuthority2" type="primary">获取模拟token</el-button>
+        </el-form-item>
       </el-form>
     </div>
   </div>
@@ -137,6 +140,13 @@ export default {
 //          "Authorization":'Bearer '+sessionStorage.token
 //        }
 //      })
+    },
+    getAuthority2(){
+      axios.get(' https://www.easy-mock.com/mock/5ad706b939b4875243eda157/example/hh/login?user=admin').then((res)=>{
+      console.log(res.data);
+      util.session('token',res.data.data.token);
+//      sessionStorage.setItem('token',res.data.data.token);
+      })
     },
     quiteLogin(){
       axios.post('/api/uaa/user/userLogout').then((res)=>{

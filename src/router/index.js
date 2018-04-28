@@ -5,7 +5,8 @@ Vue.use(Router);
 let baseRoute = [{
   path: '/login',
   name: '登录',
-  component: (resolve) => require(['../views/login.vue'], resolve)
+  // component: (resolve) => require(['../views/login.vue'], resolve)
+  component:(resolve) => require(['../views/hh-login.vue'],resolve)
 },{
   path:'/map',
   name:'地图',

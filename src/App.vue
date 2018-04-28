@@ -8,7 +8,8 @@
 
 <script>
 import Vue from 'vue';
-import instance from './api';
+//import instance from './api/index.js';
+import instance from './api/hh-instance.js';
 import userPath from './router/fullpath';
 import * as util from './assets/util.js';
 
@@ -65,6 +66,7 @@ export default {
       });
     },
     getRoutes: function(userInfo) {
+      console.log(userInfo);
       if(!userInfo.menus){
         return console.warn(userInfo);
       }
@@ -108,6 +110,7 @@ export default {
       }
       let originPath = util.deepcopy(userPath[0].children);
       findLocalRoute(originPath);
+      console.log(allowedRouter);
       return allowedRouter;
     },
     extendRoutes: function(allowedRouter) {
@@ -130,14 +133,15 @@ export default {
       });
       let originPath = util.deepcopy(userPath);
       originPath[0].children = actualRouter;
-      //注入路由
-//      vm.$router.addRoutes(originPath.concat([{
-//        path: '*',
-//        redirect: '/404'
-//      }]));
+//      注入路由
+      vm.$router.addRoutes(originPath.concat([{
+        path: '*',
+        redirect: '/404'
+      }]));
       vm.$router.addRoutes(originPath);
     },
     signin: function(callback) {
+      console.log(456);
       let vm = this;
       //检查登录状态
       let localUser = util.session('token');
@@ -159,6 +163,7 @@ export default {
         vm.setInterceptor(resourcePermission);
         //获得实际路由
         let allowedRouter = vm.getRoutes(userInfo);
+        debugger;
         //若无可用路由限制访问
         if (!allowedRouter || !allowedRouter.length) {
           util.session('token','');

@@ -18,7 +18,16 @@ export default [{
       name: '账号管理'
     },
     component: (resolve) => require(['../views/accounts.vue'], resolve)
-  }, {
+  },
+    {
+    path:'/map',
+      name:'地图1',
+      meta:{
+      name:'百度地图1'
+      },
+      component:(resolve) => require(['../views/map-test.vue'],resolve)
+  },
+    {
     path: '/goods',
     name: '商品管理',
     meta: {
@@ -29,7 +38,7 @@ export default [{
       path: 'list',
       name: '商品信息',
       meta: {
-        
+
       },
       component: (resolve) => require(['../views/goods-list.vue'], resolve)
     }]

@@ -17,7 +17,7 @@ export const session = function(key, value){
     };
     return sessionStorage.setItem(key, value);
   }
-} 
+}
 
 //生成随机数
 export const getUUID = function (len) {
