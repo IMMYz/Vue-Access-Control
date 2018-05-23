@@ -28,25 +28,11 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button style="width:100%" @click.native="login" type="primary" :loading="isBtnLoading">{{btnText}}</el-button>
+          <!--<el-button style="width:100%" @click.native="login" type="primary" :loading="isBtnLoading">{{btnText}}</el-button>-->
         </el-form-item>
         <el-form-item>
-          <el-button style="width:100%" @click="getToken" type="primary">获取token</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button style="width:100%" @click="insTest2" type="primary">instance2</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button style="width:100%" @click="login2" type="primary">requestLoginTest</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button style="width:100%" @click="getAuthority" type="primary">获取路由权限</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button style="width:100%" @click="quiteLogin" type="primary">退出登陆</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button style="width:100%" @click="addRoutes" type="primary">注入路由</el-button>
+          <el-button style="width:100%" @click.native="login" type="primary" :loading="isBtnLoading">{{btnText}}
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -63,7 +49,7 @@ const requestLogin = params => {
   let words = CryptoJS.enc.Utf8.parse(params.password);
   let base64 = CryptoJS.enc.Base64.stringify(words);
   params.password = base64;
-  return axios.get(`http://rap2api.taobao.org/app/mock/224/web`, {params})
+  return axios.post(`https://www.easy-mock.com/mock/5ad706b939b4875243eda157/example/token-test`)
 };
 
 const requestLoginTest = params => {
@@ -97,39 +83,41 @@ export default {
     }
   },
   methods: {
-    getToken(){
+    login() {
+      var vm = this;
+      if (!vm.username) {
+        vm.$message.error('请填写用户名');
+        return;
+      }
+      if (!vm.password) {
+        vm.$message.error('请填写密码');
+        return;
+      }
+//      登陆提示字变更
+
 //      axios.post('http://192.168.43.3:8769/uaa/oauth/token',{
 //        username:'admin',
 //        password:'123456',
 //        Authorization:'Basic YnJvd3Nlcjo=',
 //        grant_type:'password'
 //      })
-      let params = new URLSearchParams();
-      params.append('username','admin')
-      params.append('password','123456')
-      params.append('grant_type','password')
+      let loginParams = {name: vm.username, password: vm.password, grant_type: 'password'};
+      vm.isBtnLoading = true;
+      requestLogin(loginParams).then(res => {
+        vm.isBtnLoading = false;
+        if (res.data.token) {
+          util.session('token', res.data);
+          console.log(res.data);
+          vm.$emit('login', vm.$router.currentRoute.query.form);
+        } else {
+          return Promise.reject({
+            message: '登陆错误'
+          })
+        }
+      }).catch(util.catchError);
 //      axios.post('/api/token',params).then((res)=>{
 //      })
-      axios({
-        method:'post',
-//        url:'https://www.easy-mock.com/mock/5ad706b939b4875243eda157/example/token-test',
-        url:'/api/uaa/oauth/token',
-        data:params,
-        headers:{
-          "Authorization":'Basic YnJvd3Nlcjo='
-        }
-    }).then(res=>{
-        if(res.data){
-          util.session('token',res.data.access_token);
-          instance2.defaults.headers.common['Authorization'] = 'Bearer '+res.data.access_token
-          console.log(res.data)
-        }
-      })
     },
-    getAuthority(){
-      axios.post('/api/uaa/user/route').then(function(res){
-        console.log(res.data)
-      })
 //      axios({
 //        method:'post',
 //        url:'/api/uaa/user/route',
@@ -137,87 +125,9 @@ export default {
 //          "Authorization":'Bearer '+sessionStorage.token
 //        }
 //      })
-    },
-    quiteLogin(){
-      axios.post('/api/uaa/user/userLogout').then((res)=>{
-        console.log('已退出')
-      })
-    },
-    insTest2(){
-      let params = new URLSearchParams();
-      params.append('username','admin')
-      params.append('password','123456')
-      params.append('grant_type','password')
-
-      instance2.post("/token-test",params).then(function(res){
-        console.log(res.data)
-      }).catch(function(error){
-        console.log(error)
-      })
-    },
-    login() {
-      var vm = this;
-      if (!vm.username) {
-        vm.$message.error('请填写用户名！！！');
-        return;
-      }
-      if (!vm.password) {
-        vm.$message.error('请填写密码');
-        return;
-      }
-
-      let loginParams = {name: vm.username, password: vm.password};
-      vm.isBtnLoading = true;
-      requestLogin(loginParams).then(res => {
-        vm.isBtnLoading = false;
-        if(res.data.token){
-          util.session('token', res.data);
-          vm.$emit('login', vm.$router.currentRoute.query.from);
-        }else{
-          return Promise.reject({
-            message: '登录异常！'
-          });
-        }
-      }).catch(util.catchError);
-    },
-    login2(){
-      var vm = this;
-      if(!vm.username){
-        vm.$message.error('请填写用户名!!!');
-        return;
-      }
-      if(!vm.password){
-        vm.$message.error('请填写密码');
-        return
-      }
-      let loginParams = {name:vm.username,password:vm.password};
-      vm.isBtnLoading = true;
-      requestLoginTest(loginParams).then(res=>{
-        vm.isBtnLoading = false;
-        console.log(res.data);
-        if(res.data.data){
-          util.session('token',res.data.data.token);
-          vm.$emit('login',vm.$router.currentRoute.query.from);
-        }else{
-          return Promise.reject({
-            message:'登陆异常!'
-          })
-        }
-      }).catch(util.catchError);
-    },
-    addRoutes(){
-      vm.$router.addRoutes(
-        [
-          {
-            path:'/auth',
-            component: (resolve) => require(['../views/auth-test.vue'], resolve)
-          }
-          ]
-      )
-    }
-  },
   created() {
     sessionStorage.clear();
   }
+  },
 };
 </script>

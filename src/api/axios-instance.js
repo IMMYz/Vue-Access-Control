@@ -8,6 +8,7 @@ import * as util from '../assets/util.js'
 
 const instance2 = axios.create({
   // baseURL:'http://192.168.20.123:8769',
+  baseURL: 'https://www.easy-mock.com/mock/5ad706b939b4875243eda157',
   timeout:10000
 })
 

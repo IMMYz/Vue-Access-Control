@@ -9,6 +9,7 @@
 <script>
 import Vue from 'vue';
 import instance from './api';
+import instance2 from './api/axios-instance.js';
 import userPath from './router/fullpath';
 import * as util from './assets/util.js';
 
@@ -145,13 +146,10 @@ export default {
         return vm.$router.push({ path: '/login', query: { from: vm.$router.currentRoute.path } });
       }
       //设置请求头统一携带token
-      instance.defaults.headers.common['Authorization'] = 'Bearer ' + localUser.token;
+//      instance.defaults.headers.common['Authorization'] = 'Bearer ' + localUser.token;
+      instance2.defaults.headers.common['Authorization'] = 'Basic YnJvd3Nlcjo=' + localUser.token;
       //获取用户信息及权限数据
-      instance.get(`/signin`, {
-        params: {
-          Authorization: localUser.token
-        }
-      }).then((res) => {
+      instance2.get(`/hh/signin`).then((res) => {
         let userInfo = res.data;
         //取得资源权限对象
         let resourcePermission = vm.getPermission(userInfo);
@@ -202,11 +200,11 @@ export default {
       //清除session
       util.session('token','');
       //清除请求权限控制
-      instance.interceptors.request.eject(myInterceptor);
+      instance2.interceptors.request.eject(myInterceptor);
       //清除菜单权限
       this.$root.hashMenus = {};
       //清除请求头token
-      instance.defaults.headers.common['Authorization'] = '';
+      instance2.defaults.headers.common['Authorization'] = '';
       //回到登录页
       this.$router.replace({path: '/login'});
     }
