@@ -44,7 +44,7 @@ const requestLogin = params => {
   let words = CryptoJS.enc.Utf8.parse(params.password);
   let base64 = CryptoJS.enc.Base64.stringify(words);
   params.password = base64;
-  return axios.get(`http://rap2api.taobao.org/app/mock/224/web`, {params})
+  return axios.post(`https://www.easy-mock.com/mock/5ad706b939b4875243eda157/example/token-test`)
 };
 
 export default {
@@ -78,6 +78,7 @@ export default {
       requestLogin(loginParams).then(res => {
         vm.isBtnLoading = false;
         if(res.data.token){
+//          sessionStorage.setItem("token", res.data.token);
           util.session('token', res.data);
           vm.$emit('login', vm.$router.currentRoute.query.from);
         }else{

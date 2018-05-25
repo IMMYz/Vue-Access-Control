@@ -3,7 +3,7 @@
 </style>
 
 <template>
-  <div v-loading="loading">
+  <div>
     <!-- 操作 -->
     <div class="operation">
       <el-button size="small" type="primary" v-has="[account.request]" @click="fetchData">查询</el-button>
@@ -40,6 +40,8 @@
       </el-table-column>
     </el-table>
     <!-- table end  -->
+    <router-link to="mysouces">mysouces</router-link>
+    <router-view></router-view>
   </div>
 </template>
 

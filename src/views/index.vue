@@ -45,9 +45,9 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 55px;
-  line-height: 55px;
-  background: #409EFF;
+  height: 60px;
+  line-height: 60px;
+  background: #090723;
 }
 
 .logo {
@@ -84,7 +84,12 @@
 <template>
   <div class="g-body">
     <el-row type="flex" class="g-head">
-      <a href="http://refined-x.com" target="_blank" title="Vue权限控制" class="logo" >Vue-Access-Control</a>
+      <a href="http://refined-x.com" target="_blank" title="Vue权限控制" class="logo" >红河资源汇聚系统</a>
+      <el-menu :default-active="activeMenu" mode="horizontal" router background-color="#090723" text-color="#fff" active-text-color="#ffd04b">
+        <template v-for="(route, index) in menus">
+            <el-menu-item :route="route" :index="route.name">{{route.meta.name || route.name}}</el-menu-item>
+        </template>
+      </el-menu>
       <div class="nav">
         <div class="usermenu" v-if="user.id">
           欢迎您：{{user.name}}
@@ -94,7 +99,7 @@
       </div>
     </el-row>
 
-    <el-menu :default-active="activeMenu" class="g-side" router >
+    <!--<el-menu :default-active="activeMenu" class="g-side" router >
       <template v-for="(route, index) in menus">
         <template v-if="route.children">
           <el-submenu :key="index" :index="route.name">
@@ -107,14 +112,9 @@
           <el-menu-item :route="route" :index="route.name">{{route.meta.name || route.name}}</el-menu-item>
         </template>
       </template>
-    </el-menu>
+    </el-menu>-->
 
     <div class="g-statues-bar p-lr">
-      <el-breadcrumb separator="/" class="bread" id="mybread">
-        <el-breadcrumb-item v-for="(item,index) in breadcrumbs" :key="index" :to="item">
-          {{ item.meta.name || item.name }}
-        </el-breadcrumb-item>
-      </el-breadcrumb>
     </div>
     <template v-if="$route.path=='/'">
       <dashboard />
@@ -122,7 +122,7 @@
     <template v-else>
     <router-view id="main"></router-view>
     </template>
-    
+
   </div>
 </template>
 <script>
