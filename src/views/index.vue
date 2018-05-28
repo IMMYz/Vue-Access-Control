@@ -1,4 +1,4 @@
-<style scoped>
+<style lang="scss" scoped>
 .g-body {
   overflow-x: hidden;
   overflow-y: auto;
@@ -6,7 +6,7 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   height: 100%;
-  padding: 110px 20px 0 270px;
+  padding: 60px 0 0 0;
 }
 
 .g-statues-bar {
@@ -80,16 +80,29 @@
   overflow-x: hidden;
   overflow-y: auto;
 }
+.zyhj-menu{
+  width:1160px;
+  margin:0 auto;
+  padding-left:110px;
+  .el-menu-item{
+    font-size:18px;
+  }
+  .el-menu--horizontal{
+    border-bottom:none
+  }
+}
 </style>
 <template>
   <div class="g-body">
     <el-row type="flex" class="g-head">
-      <a href="http://refined-x.com" target="_blank" title="Vue权限控制" class="logo" >红河资源汇聚系统</a>
+      <a title="Vue权限控制" class="logo" >红河资源汇聚系统</a>
+      <div class="zyhj-menu">
       <el-menu :default-active="activeMenu" mode="horizontal" router background-color="#090723" text-color="#fff" active-text-color="#ffd04b">
         <template v-for="(route, index) in menus">
             <el-menu-item :route="route" :index="route.name">{{route.meta.name || route.name}}</el-menu-item>
         </template>
       </el-menu>
+      </div>
       <div class="nav">
         <div class="usermenu" v-if="user.id">
           欢迎您：{{user.name}}
@@ -113,9 +126,6 @@
         </template>
       </template>
     </el-menu>-->
-
-    <div class="g-statues-bar p-lr">
-    </div>
     <template v-if="$route.path=='/'">
       <dashboard />
     </template>

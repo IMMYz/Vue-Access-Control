@@ -47,6 +47,38 @@ export default [{
       ]
     },
     {
+      path:'/datasouces',
+      name:'数据资源',
+      meta:{
+
+      },
+      component:(resolve) => require(['../views/data-souces/datasouces.vue'],resolve)
+    },
+    {
+      path:'/standarddata',
+      name:'标准数据',
+      meta:{
+
+      },
+      component:(resolve) => require(['../views/standarddate/standarddate.vue'],resolve)
+    },
+    {
+      path:'/openapi',
+      name:'开放接口',
+      meta:{
+
+      },
+      component:(resolve) => require(['../views/open-api/open-api.vue'],resolve)
+    },
+    {
+      path:'/databoard',
+      name:'数据看板',
+      meta:{
+
+      },
+      component:(resolve) => require(['../views/data-board/data-board.vue'],resolve)
+    },
+    {
       path:'/testrouter',
       name:'测试',
       meta:{
